@@ -21,6 +21,12 @@
     "rules": {
         "no-debugger": "off",
         "no-console": 0,
+        "prettier/prettier": [
+            "error",
+            {
+              "endOfLine": "auto"
+            }
+        ],
         "class-methods-use-this": "off",
         "@typescript-eslint/no-explicit-any":"error",
         "@typescript-elsint/no-inferrable-types":"off",
