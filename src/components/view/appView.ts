@@ -32,19 +32,17 @@ export class AppView {
 
     private sources: Sources;
 
-    private constructor() {
+    public constructor() {
         this.news = new News();
         this.sources = new Sources();
     }
 
     public drawNews(data: NewsInt): void {
-        console.log(data);
         const values = data?.articles ? data?.articles : [];
         this.news.draw(values);
     }
 
     public drawSources(data: SourcesInt): void {
-        console.log(data);
         const values = data?.sources ? data?.sources : [];
         this.sources.draw(values);
     }

@@ -5,6 +5,33 @@ interface URL {
     endpoint: string;
     options?: object;
 }
+
+interface NewLink {
+    id: string;
+    name: string;
+}
+interface SourcesInt {
+    sources: NewLink[];
+}
+
+interface New {
+    author: string;
+    content: string;
+    description: string;
+    publishedAt: string;
+    source: {
+        id: string;
+        name: string;
+    };
+    title: string;
+    url: string;
+    urlToImage: string;
+}
+
+interface NewsInt {
+    articles: New[];
+}
+
 class Loader {
     private baseLink: string;
 
@@ -15,13 +42,22 @@ class Loader {
         this.options = options;
     }
 
-    protected getResp(
+    protected getRespSources(
         { endpoint, options = {} }: URL,
-        callback = (data: object): void => {
+        callback = (data: SourcesInt): void => {
             console.error('No callback for GET response');
         }
     ): void {
-        this.load('GET', endpoint, callback, options);
+        this.loadSources('GET', endpoint, callback, options);
+    }
+
+    protected getRespNews(
+        { endpoint, options = {} }: URL,
+        callback = (data: NewsInt): void => {
+            console.error('No callback for GET response');
+        }
+    ): void {
+        this.loadNews('GET', endpoint, callback, options);
     }
 
     private errorHandler(res: Response): Response {
@@ -45,7 +81,16 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    private load(method: string, endpoint: string, callback: (data: object) => void, options = {}): void {
+    private loadSources(method: string, endpoint: string, callback: (data: SourcesInt) => void, options = {}): void {
+        console.log(this.makeUrl(options, endpoint));
+        fetch(this.makeUrl(options, endpoint), { method })
+            .then(this.errorHandler)
+            .then((res) => res.json())
+            .then((res) => callback(res))
+            .catch((err) => console.error(err));
+    }
+
+    private loadNews(method: string, endpoint: string, callback: (data: NewsInt) => void, options = {}): void {
         console.log(this.makeUrl(options, endpoint));
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)

@@ -1,8 +1,34 @@
 import AppLoader from './appLoader';
 
+interface NewLink {
+    id: string;
+    name: string;
+}
+interface SourcesInt {
+    sources: NewLink[];
+}
+
+interface New {
+    author: string;
+    content: string;
+    description: string;
+    publishedAt: string;
+    source: {
+        id: string;
+        name: string;
+    };
+    title: string;
+    url: string;
+    urlToImage: string;
+}
+
+interface NewsInt {
+    articles: New[];
+}
+
 class AppController extends AppLoader {
-    public getSources(callback: () => void): void {
-        super.getResp(
+    public getSources(callback: (data: SourcesInt) => void): void {
+        super.getRespSources(
             {
                 endpoint: 'sources',
             },
@@ -10,7 +36,7 @@ class AppController extends AppLoader {
         );
     }
 
-    protected getNews(e: Event, callback: () => void): void {
+    public getNews(e: Event, callback: (data: NewsInt) => void): void {
         let target = e.target as HTMLElement;
         const newsContainer = e.currentTarget as HTMLElement;
 
@@ -19,7 +45,7 @@ class AppController extends AppLoader {
                 const sourceId = target.getAttribute('data-source-id') as string;
                 if (newsContainer.getAttribute('data-source') !== sourceId) {
                     newsContainer.setAttribute('data-source', sourceId);
-                    super.getResp(
+                    super.getRespNews(
                         {
                             endpoint: 'everything',
                             options: {
