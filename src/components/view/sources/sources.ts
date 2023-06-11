@@ -1,12 +1,12 @@
 import './sources.css';
 
-interface New {
+interface NewLink {
     id: string;
     name: string;
 }
 
 class Sources {
-    public draw(data: New[]): void {
+    public draw(data: NewLink[]): void {
         const fragment = document.createDocumentFragment();
         const sourceItemTemp = document.querySelector('#sourceItemTemp') as HTMLTemplateElement;
 
