@@ -3,7 +3,7 @@ interface Options {
 }
 interface URL {
     endpoint: string;
-    options: object;
+    options?: object;
 }
 class Loader {
     private baseLink: string;
@@ -17,7 +17,7 @@ class Loader {
 
     protected getResp(
         { endpoint, options = {} }: URL,
-        callback = (): void => {
+        callback = (data: object): void => {
             console.error('No callback for GET response');
         }
     ): void {
@@ -45,11 +45,12 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    private load(method: string, endpoint: string, callback: () => void, options = {}): void {
+    private load(method: string, endpoint: string, callback: (data: object) => void, options = {}): void {
+        console.log(this.makeUrl(options, endpoint));
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then((res) => res.json())
-            .then(() => callback())
+            .then((res) => callback(res))
             .catch((err) => console.error(err));
     }
 }
