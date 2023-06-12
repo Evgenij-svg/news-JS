@@ -1,4 +1,5 @@
 import './sources.css';
+import NavSource from '../../element/navSource/navSource';
 
 interface NewLink {
     id: string;
@@ -16,11 +17,17 @@ class Sources {
             sourceItemName.textContent = item.name;
             const sourceItemId = sourceClone.querySelector('.source__item') as HTMLElement;
             sourceItemId.setAttribute('data-source-id', item.id);
-
             fragment.append(sourceClone);
         });
         const sourceElement = document.querySelector('.sources') as HTMLElement;
         sourceElement.append(fragment);
+        console.log(!document.querySelector('.buttonElem'));
+        if (!document.querySelector('.buttonElem')) {
+            const sourceElements: NodeListOf<Element> = sourceElement.querySelectorAll('.source__item');
+            const sourceItems: HTMLElement[] = Array.from(sourceElements) as HTMLElement[];
+            const NavSourceButtons: NavSource = new NavSource(sourceItems);
+            document.querySelector('body')?.appendChild(NavSourceButtons.drawButtons());
+        }
     }
 }
 

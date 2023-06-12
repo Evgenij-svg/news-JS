@@ -1,5 +1,6 @@
 import AppController from '../controller/controller';
 import { AppView } from '../view/appView';
+import NavSource from '../element/navSource/navSource';
 
 class App {
     private controller: AppController;
